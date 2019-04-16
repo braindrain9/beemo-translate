@@ -1,7 +1,7 @@
 <template>
     <div class="popup">
         <header>
-            <span>Translate and Study with Beemo! <span class="muted">0.0.1</span></span>
+            <span><strong>Translate and Study with Beemo</strong>!</span>
             <span>
                 <a href="#" @click="openInstructions = !openInstructions"><icon class="how-to-icon" name="question-circle"></icon></a>
                 <a href="#" @click="openOptionsPage"><icon name="cog"></icon></a>
@@ -48,6 +48,7 @@
 <style scoped lang="scss">
     $grey: #3C4858;
     $light-grey: #8492A6;
+    $super-light-grey: #dcdcdc;
 
     .muted {
         color: $light-grey;
@@ -57,17 +58,13 @@
         width: 350px;
         min-height: 300px;
         max-height: 500px;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Noto Sans', sans-serif;
         font-size: 14px;
         color: $grey;
 
         header {
             display: flex;
             justify-content: space-between;
-
-            > span {
-                font-weight: bold;
-            }
 
             svg {
                 padding-right: 5px;
@@ -91,16 +88,16 @@
 
                 img {
                     align-self: center;
+                    pointer-events: none;
                 }
 
                 div {
                     text-align: center;
                     padding-top: 20px;
-                    font-weight: bold;
                 }
 
-                border-bottom: 1px solid #dcdcdc;
-                margin-bottom: 20px;
+                border-bottom: 1px solid $super-light-grey;
+                margin-bottom: 15px;
             }
         }
 

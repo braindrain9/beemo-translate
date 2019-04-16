@@ -1,6 +1,6 @@
 const path = require('path');
-const webpack = require('webpack');
-const ChromeReloadPlugin  = require('wcer');
+// const webpack = require('webpack');
+// const ChromeReloadPlugin  = require('wcer');
 const {cssLoaders, htmlPage} = require('./tools');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -10,7 +10,7 @@ module.exports = {
     tab: resolve('./tab'),
     popup: resolve('./popup'),
     options: resolve('./options'),
-    content: resolve('./content'), 
+    content: resolve('./content'),
     devtools: resolve('./devtools'),
     background: resolve('./backend'),
     panel: resolve('./devtools/panel'),
@@ -96,11 +96,7 @@ module.exports = {
     htmlPage('devtools', 'devtools', ['devtools']),
     htmlPage('options', 'options', ['options']),
     htmlPage('background', 'background', ['background']),
-    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }]),
-    new ChromeReloadPlugin({
-      port: 9090,
-      manifest: path.join(__dirname, '..', 'src', 'manifest.js')
-    }),
+    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }])
   ],
   performance: { hints: false },
 };
