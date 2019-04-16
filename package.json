@@ -1,5 +1,5 @@
 {
-  "name": "lingo-app",
+  "name": "beemo-app",
   "version": "0.0.1",
   "description": "vue.js chrome translation extension",
   "license": "MIT",
@@ -8,6 +8,7 @@
     "element-ui": "^2.0.1",
     "lodash": "^4.17.4",
     "vue": "^2.5.2",
+    "vue-awesome": "^3.5.1",
     "vue-meta": "^1.2.0",
     "vue-pouch": "^0.0.22",
     "vue-router": "^3.0.1",

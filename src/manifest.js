@@ -1,6 +1,6 @@
 
 module.exports = {
-  name: 'Lingo App',
+  name: 'Beemo App',
   version: '0.1',
   description: 'A Chrome Translation Extension',
   manifest_version: 2,
@@ -20,7 +20,7 @@ module.exports = {
     'identity.email'
   ],
   browser_action: {
-    default_title: 'title',
+    default_title: 'Beemo App',
     default_popup: 'pages/popup.html'
   },
   background: {
