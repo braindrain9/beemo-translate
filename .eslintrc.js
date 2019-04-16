@@ -27,8 +27,8 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow semi colons
-    "semi": [2, "always"],
-    "space-before-function-paren": 0,
+    'semi': [2, 'always'],
+    'space-before-function-paren': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }
