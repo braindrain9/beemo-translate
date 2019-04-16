@@ -1,0 +1,1 @@
+Meet Beemo! The most friendly Chrome Translation Extension.

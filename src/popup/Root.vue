@@ -1,7 +1,7 @@
 <template>
     <div class="popup">
         <header>
-            <span>Beemo App <span class="muted">0.0.1</span></span>
+            <span>Translate and Study with Beemo! <span class="muted">0.0.1</span></span>
             <span>
                 <a href="#" @click="openInstructions = !openInstructions"><icon class="how-to-icon" name="question-circle"></icon></a>
                 <a href="#" @click="openOptionsPage"><icon name="cog"></icon></a>
