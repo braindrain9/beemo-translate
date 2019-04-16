@@ -1,6 +1,7 @@
 <template>
-    <div></div>
+    <div>
       <el-button type="primary" @click="tab">New tab</el-button>
+    </div>
 </template>
 <script>
   export default {
