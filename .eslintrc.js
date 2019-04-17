@@ -29,6 +29,9 @@ module.exports = {
     // allow semi colons
     'semi': [2, 'always'],
     'space-before-function-paren': 0,
+    'no-multiple-empty-lines': 0,
+    'padded-blocks': 0,
+    'no-trailing-spaces': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }
