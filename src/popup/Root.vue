@@ -58,7 +58,7 @@
         width: 350px;
         min-height: 300px;
         max-height: 500px;
-        font-family: 'Noto Sans', sans-serif;
+        font-family: 'Proxima Nova', sans-serif;
         font-size: 14px;
         color: $grey;
 

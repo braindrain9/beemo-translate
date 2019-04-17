@@ -15,8 +15,11 @@ chrome.storage.sync.get({
 
   chrome.contextMenus.onClicked.addListener(function({menuItemId, selectionText}, tab) {
     if (menuItemId === 'menuId') {
-      console.log(selectionText, 'selectionText');
+      onTranslation(selectionText);
     }
   });
 });
 
+function onTranslation(selectionText) {
+  console.log(selectionText, 'selectionText');
+}
