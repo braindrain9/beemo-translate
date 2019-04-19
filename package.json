@@ -11,6 +11,7 @@
     "vue-awesome": "^3.5.1",
     "vue-meta": "^1.2.0",
     "vue-pouch": "^0.0.22",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.0"
   },

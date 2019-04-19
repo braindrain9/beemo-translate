@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Root from './Root.vue';
+import VueResource from 'vue-resource';
 
 Vue.config.productionTip = false;
+
+Vue.use(VueResource);
 
 // TODO delete than
 console.log('content-script!');

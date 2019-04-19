@@ -18,10 +18,33 @@
       },
       methods: {
         renderPopup(mouseX, mouseY, selection) {
+          this.getTranslation();
+
           this.content.original = selection;
           this.$refs.popup.style.top = mouseY + 'px';
           this.$refs.popup.style.left = mouseX + 'px';
           this.$refs.popup.style.visibility = 'visible';
+        },
+        getTranslation(text) {
+          console.log(text);
+
+          const data = {
+            'q': text,
+            'target': 'en'
+          };
+
+          this.$http.get('https://hablaa-dictionary-translation-hablaa-v1.p.rapidapi.com/translation/hello/en/', {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'X-RapidAPI-Host': 'hablaa-dictionary-translation-hablaa-v1.p.rapidapi.com',
+              'X-RapidAPI-Key': 'b8e3060b26msh93eeee9ae6b50a6p182194jsn816d2df10db3'
+            }}
+          ).then(function (response) {
+            // Success
+            console.log(response);
+          }, function (response) {
+            console.log(response); // error
+          }).finally(() => {});
         }
       },
       mounted() {
