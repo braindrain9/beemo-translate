@@ -8,14 +8,21 @@
             <p>Beemo is thinking ...</p>
         </div>
         <div v-else>
-            <p class="bold">Original:</p>
-            <p>{{selection.original}}</p>
-            <p class="bold">Beemo Translates:</p>
-            <p>{{selection.translation}}</p>
+            <p class="heading">Original:</p>
+            <p><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
+            <p class="heading">Beemo Translates to Ukrainian:</p>
+            <p>{{flag.translation}} {{selection.translation}}</p>
         </div>
     </div>
 </template>
 <script>
+    import flag from 'country-code-emoji';
+
+    const codeToFlag = {
+      'uk': 'ua',
+      'en': 'us'
+    };
+
     export default {
       data() {
         return {
@@ -23,6 +30,10 @@
           selection: {
             original: '',
             translation: ''
+          },
+          flag: {
+            original: undefined,
+            translation: flag('ua')
           }
         };
       },
@@ -33,7 +44,11 @@
           this.$refs.popup.style.visibility = 'visible';
 
           this.getTranslation(selection).then((translated) => {
-            this.selection.translation = translated;
+            // slice to pass only 2-digit code
+            const langCode = codeToFlag[translated.lang] || translated.lang.slice(0, 2);
+
+            this.selection.translation = translated.text;
+            this.flag.original = flag(langCode);
             this.selection.original = selection;
           });
         },
@@ -42,17 +57,26 @@
           this.selection.translation = '';
           this.loading = true;
 
+          const translated = {
+            text: 'Переклад не доступний :(',
+            lang: ''
+          };
+
           return this.$http.get(
             `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=uk&dt=t&q=${encodeURI(text)}`
           )
             .then((response) => {
               // Success
               console.log(response.data[0][0][0]); // TODO delete than
-              return response.data[0][0][0];
+              console.log(response.data[2]);
+              translated.text = response.data[0][0][0];
+              translated.lang = response.data[2];
+
+              return translated;
             }, (response) => {
               // Error
               console.log(response.data); // TODO delete than
-              return 'Переклад не доступний :(';
+              return translated;
             })
             .finally((translated) => {
               this.loading = false;
@@ -82,9 +106,11 @@
 </script>
 <style scoped lang="scss">
     $grey: #3C4858;
+    $lighter-grey: #555;
 
-    .bold {
+    .heading {
         font-weight: bold;
+        color: $lighter-grey;
     }
 
     .beemo-popup {

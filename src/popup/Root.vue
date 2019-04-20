@@ -12,7 +12,7 @@
                 <img src="https://orig00.deviantart.net/40d9/f/2012/221/5/b/beemo_dancing_by_norrling-d5afmpo.gif"
                      width="120"
                      height="120"
-                     alt="Hot air balloon icon"
+                     alt="Beemo is dancing"
                 >
                 <div>Your vocabulary is empty</div>
             </div>
