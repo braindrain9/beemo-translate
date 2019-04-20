@@ -1,5 +1,5 @@
 <template>
-    <div class="beemo-popup" ref="popup">
+    <div class="beemo-popup" ref="popup" id="content-popup">
         <div v-if="loading" class="loading">
             <img src="https://cdn.dribbble.com/users/56874/screenshots/1055874/bmo__gif_animation__by_desd_d-d5wdgdb.gif"
                  alt="Beemo thinks"
@@ -8,10 +8,17 @@
             <p>Beemo is thinking ...</p>
         </div>
         <div v-else>
-            <p class="heading">Original:</p>
-            <p><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
-            <p class="heading">Beemo Translates to Ukrainian:</p>
+            <p class="heading">
+                Beemo Translates to
+                <select v-model="lang.translation" @change="translate(selection.original)">
+                    <option v-for="country in countryList" :key="country.code" v-bind:value="country.code">
+                        {{country.title}}
+                    </option>
+                </select>:
+            </p>
             <p>{{flag.translation}} {{selection.translation}}</p>
+            <p class="heading original">Original:</p>
+            <p><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
         </div>
     </div>
 </template>
@@ -22,18 +29,29 @@
       'uk': 'ua',
       'en': 'us'
     };
+    const codeToCountry = {
+      'uk': 'Ukrainian',
+      'en': 'English',
+      'de': 'German',
+      'es': 'Spanish',
+      'fr': 'French'
+    };
 
     export default {
       data() {
         return {
           loading: false,
+          countryList: [],
           selection: {
             original: '',
             translation: ''
           },
           flag: {
-            original: undefined,
-            translation: flag('ua')
+            translation: flag('ua'),
+            original: undefined
+          },
+          lang: {
+            translation: 'uk'
           }
         };
       },
@@ -43,50 +61,61 @@
           this.$refs.popup.style.left = mouseX + 'px';
           this.$refs.popup.style.visibility = 'visible';
 
-          this.getTranslation(selection).then((translated) => {
-            // slice to pass only 2-digit code
-            const langCode = codeToFlag[translated.lang] || translated.lang.slice(0, 2);
-
-            this.selection.translation = translated.text;
-            this.flag.original = flag(langCode);
+          this.translate(selection);
+        },
+        translate(selection) {
+          this.loading = true;
+          this.getTranslation(selection).then((data) => {
             this.selection.original = selection;
+            this.selection.translation = data.text;
+            this.flag.original = this.getFlagEmoji(data.originalLang);
+            this.flag.translation = this.getFlagEmoji(this.lang.translation);
+          }).finally(() => {
+            // add small delay not to prevent small loading flashing on language change
+            setTimeout(() => {
+              this.loading = false;
+            }, 100);
           });
         },
         getTranslation(text) {
           // Set to empty string in order do not show previous translation while new is pending
           this.selection.translation = '';
-          this.loading = true;
 
           const translated = {
             text: 'Переклад не доступний :(',
-            lang: ''
+            originalLang: ''
           };
 
           return this.$http.get(
-            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=uk&dt=t&q=${encodeURI(text)}`
+            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${this.lang.translation}&dt=t&q=${encodeURI(text)}`
           )
             .then((response) => {
               // Success
               console.log(response.data[0][0][0]); // TODO delete than
               console.log(response.data[2]);
-              translated.text = response.data[0][0][0];
-              translated.lang = response.data[2];
+              translated.text = response.data[0].map((item) => {
+                return item[0];
+              }).join('');
+              translated.originalLang = response.data[2];
 
               return translated;
             }, (response) => {
               // Error
               console.log(response.data); // TODO delete than
               return translated;
-            })
-            .finally((translated) => {
-              this.loading = false;
-
-              return translated;
             });
+        },
+        getFlagEmoji(lang) {
+          // slice to pass only 2-digit code
+          return flag(codeToFlag[lang] || lang.slice(0, 2));
         }
       },
       mounted() {
         const self = this;
+
+        Object.keys(codeToCountry).forEach((code) => {
+          this.countryList.push({code, title: codeToCountry[code]});
+        });
 
         document.addEventListener('mouseup', function (e) {
           const selection = window.getSelection().toString();
@@ -94,23 +123,32 @@
           // TODO delete than
           console.log(selection, 'selection');
 
-          if (selection.length > 0) {
+          if (selection && selection.length > 0) {
             self.renderPopup(e.pageX, e.pageY, selection);
           } else {
-            // TODO do not hide if selection is inside popup
             self.$refs.popup.style.visibility = 'hidden';
           }
         }, false);
+
+        document.getElementById('content-popup').addEventListener('mouseup', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
       }
     };
 </script>
 <style scoped lang="scss">
     $grey: #3C4858;
     $lighter-grey: #555;
+    $lightest-grey: #888;
 
     .heading {
         font-weight: bold;
         color: $lighter-grey;
+    }
+
+    .original {
+        color: $lightest-grey;
     }
 
     .beemo-popup {
@@ -118,7 +156,7 @@
         padding: 15px;
         font-size: 14px;
         min-height: 200px;
-        width: 200px;
+        width: 225px;
         background: #fff;
         color: $grey;
         z-index: 1000000;
