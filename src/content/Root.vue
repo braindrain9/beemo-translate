@@ -18,7 +18,7 @@
             </p>
             <p>{{flag.translation}} {{selection.translation}}</p>
             <p class="heading original">Original:</p>
-            <p><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
+            <p class="original"><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
         </div>
     </div>
 </template>
@@ -65,6 +65,8 @@
         },
         translate(selection) {
           this.loading = true;
+          this.$refs.popup.style.width = this.getPopupWidth(selection.length);
+
           this.getTranslation(selection).then((data) => {
             this.selection.original = selection;
             this.selection.translation = data.text;
@@ -108,6 +110,19 @@
         getFlagEmoji(lang) {
           // slice to pass only 2-digit code
           return flag(codeToFlag[lang] || lang.slice(0, 2));
+        },
+        getPopupWidth(length) {
+          let width;
+
+          if (length > 500) {
+            width = '600px';
+          } else if (length > 300) {
+            width = '400px';
+          } else {
+            width = '270px';
+          }
+
+          return width;
         }
       },
       mounted() {
@@ -156,7 +171,7 @@
         padding: 15px;
         font-size: 14px;
         min-height: 200px;
-        width: 225px;
+        width: 270px;
         background: #fff;
         color: $grey;
         z-index: 1000000;
