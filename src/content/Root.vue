@@ -1,13 +1,21 @@
 <template>
     <div class="beemo-popup" ref="popup" id="content-popup">
-        <div v-if="loading" class="loading">
-            <img src="https://cdn.dribbble.com/users/56874/screenshots/1055874/bmo__gif_animation__by_desd_d-d5wdgdb.gif"
-                 alt="Beemo thinks"
+        <div v-if="loading && !error" class="loading">
+            <img src="http://33.media.tumblr.com/ed93010586d5be345730a1ced4b5396c/tumblr_n60a0vf8Sr1s33ojro1_250.gif"
+                 alt="Beemo is thinking"
                  width="80"
             />
             <p>Beemo is thinking ...</p>
         </div>
-        <div v-else>
+        <div v-if="error && !loading" class="error">
+            <img src="https://media1.tenor.com/images/2a7614b89d467345750faef7af2c4280/tenor.gif?itemid=8025392"
+                 alt="Beemo cries"
+                 width="80"
+            />
+            <p class="heading">Something went wrong!</p>
+            <p>Beemo is very upset! Please try to reload page or make a cup of coffee and wait till our super team is fixing it!</p>
+        </div>
+        <div v-if="!loading && !error">
             <p class="heading">
                 Beemo Translates to
                 <select v-model="lang.translation" @change="translate(selection.original)">
@@ -41,6 +49,7 @@
       data() {
         return {
           loading: false,
+          error: false,
           countryList: [],
           selection: {
             original: '',
@@ -57,6 +66,7 @@
       },
       methods: {
         renderPopup(mouseX, mouseY, selection) {
+          this.loading = true;
           this.$refs.popup.style.top = mouseY + 'px';
           this.$refs.popup.style.left = mouseX + 'px';
           this.$refs.popup.style.visibility = 'visible';
@@ -65,18 +75,22 @@
         },
         translate(selection) {
           this.loading = true;
+          this.error = false;
           this.$refs.popup.style.width = this.getPopupWidth(selection.length);
 
           this.getTranslation(selection).then((data) => {
-            this.selection.original = selection;
-            this.selection.translation = data.text;
-            this.flag.original = this.getFlagEmoji(data.originalLang);
-            this.flag.translation = this.getFlagEmoji(this.lang.translation);
-          }).finally(() => {
-            // add small delay not to prevent small loading flashing on language change
+            if (data) {
+              this.selection.original = selection;
+              this.selection.translation = data.text;
+              this.flag.original = this.getFlagEmoji(data.originalLang);
+              this.flag.translation = this.getFlagEmoji(this.lang.translation);
+            }
+
+            // add small delay not to prevent small popup flashing on quick load
             setTimeout(() => {
               this.loading = false;
-            }, 100);
+              this.error = !data;
+            }, 250);
           });
         },
         getTranslation(text) {
@@ -84,7 +98,7 @@
           this.selection.translation = '';
 
           const translated = {
-            text: 'Переклад не доступний :(',
+            text: '',
             originalLang: ''
           };
 
@@ -103,8 +117,7 @@
               return translated;
             }, (response) => {
               // Error
-              console.log(response.data); // TODO delete than
-              return translated;
+              return response.ok;
             });
         },
         getFlagEmoji(lang) {
@@ -181,9 +194,13 @@
         p {
             margin-bottom: 20px;
         }
+
+        img {
+            margin-bottom: 20px;
+        }
     }
 
-    .loading {
+    .loading, .error {
         display: flex;
         align-items: center;
         justify-content: center;
