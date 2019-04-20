@@ -1,16 +1,26 @@
 <template>
     <div class="beemo-popup" ref="popup">
-        <p><strong>Original:</strong></p>
-        <p>{{content.original}}</p>
-        <p><strong>Beemo Translates:</strong></p>
-        <p>{{content.translation}}</p>
+        <div v-if="loading" class="loading">
+            <img src="https://cdn.dribbble.com/users/56874/screenshots/1055874/bmo__gif_animation__by_desd_d-d5wdgdb.gif"
+                 alt="Beemo thinks"
+                 width="80"
+            />
+            <p>Beemo is thinking ...</p>
+        </div>
+        <div v-else>
+            <p class="bold">Original:</p>
+            <p>{{selection.original}}</p>
+            <p class="bold">Beemo Translates:</p>
+            <p>{{selection.translation}}</p>
+        </div>
     </div>
 </template>
 <script>
     export default {
       data() {
         return {
-          content: {
+          loading: false,
+          selection: {
             original: '',
             translation: ''
           }
@@ -18,33 +28,37 @@
       },
       methods: {
         renderPopup(mouseX, mouseY, selection) {
-          this.getTranslation();
-
-          this.content.original = selection;
           this.$refs.popup.style.top = mouseY + 'px';
           this.$refs.popup.style.left = mouseX + 'px';
           this.$refs.popup.style.visibility = 'visible';
+
+          this.getTranslation(selection).then((translated) => {
+            this.selection.translation = translated;
+            this.selection.original = selection;
+          });
         },
         getTranslation(text) {
-          console.log(text);
+          // Set to empty string in order do not show previous translation while new is pending
+          this.selection.translation = '';
+          this.loading = true;
 
-          const data = {
-            'q': text,
-            'target': 'en'
-          };
+          return this.$http.get(
+            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=uk&dt=t&q=${encodeURI(text)}`
+          )
+            .then((response) => {
+              // Success
+              console.log(response.data[0][0][0]); // TODO delete than
+              return response.data[0][0][0];
+            }, (response) => {
+              // Error
+              console.log(response.data); // TODO delete than
+              return 'Переклад не доступний :(';
+            })
+            .finally((translated) => {
+              this.loading = false;
 
-          this.$http.get('https://hablaa-dictionary-translation-hablaa-v1.p.rapidapi.com/translation/hello/en/', {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'X-RapidAPI-Host': 'hablaa-dictionary-translation-hablaa-v1.p.rapidapi.com',
-              'X-RapidAPI-Key': 'b8e3060b26msh93eeee9ae6b50a6p182194jsn816d2df10db3'
-            }}
-          ).then(function (response) {
-            // Success
-            console.log(response);
-          }, function (response) {
-            console.log(response); // error
-          }).finally(() => {});
+              return translated;
+            });
         }
       },
       mounted() {
@@ -69,6 +83,10 @@
 <style scoped lang="scss">
     $grey: #3C4858;
 
+    .bold {
+        font-weight: bold;
+    }
+
     .beemo-popup {
         position: absolute;
         padding: 15px;
@@ -80,6 +98,17 @@
         z-index: 1000000;
         border-radius: 2px;
         box-shadow: 10px 11px 28px -18px rgba(0,0,0,0.55);
+
+        p {
+            margin-bottom: 20px;
+        }
     }
 
+    .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 30px;
+    }
 </style>
