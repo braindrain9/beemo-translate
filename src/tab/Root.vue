@@ -5,13 +5,13 @@
 
             <div class="vocabulary-table">
                 <div v-if="!vocabulary.length" class="empty">
-                        <img src="https://orig00.deviantart.net/40d9/f/2012/221/5/b/beemo_dancing_by_norrling-d5afmpo.gif"
-                             width="120"
-                             height="120"
-                             alt="Beemo is dancing"
-                        >
-                        <div>Your vocabulary is empty</div>
-                    </div>
+                    <img src="https://orig00.deviantart.net/40d9/f/2012/221/5/b/beemo_dancing_by_norrling-d5afmpo.gif"
+                         width="120"
+                         height="120"
+                         alt="Beemo is dancing"
+                    >
+                    <div>Your vocabulary is empty</div>
+                </div>
                 <div v-else="vocabulary.length">
                     <el-table :data="vocabulary" :border="true">
                         <el-table-column label="Original" sortable sort-by="flag.original">
@@ -29,7 +29,8 @@
                                 <el-button
                                         size="mini"
                                         type="danger"
-                                        @click="removePair(scope.$index, scope.row)">Delete</el-button>
+                                        @click="removePair(scope.$index, scope.row)">Delete
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -51,7 +52,8 @@
       removePair(index) {
         this.vocabulary.splice(index, 1);
 
-        chrome.storage.sync.set({vocabulary: this.vocabulary}, () => {});
+        chrome.storage.sync.set({vocabulary: this.vocabulary}, () => {
+        });
       }
     },
     mounted() {
@@ -92,7 +94,7 @@
                 min-height: 500px;
                 border-radius: 4px;
                 padding: 24px;
-                box-shadow: 5px 5px 20px -18px rgba(0,0,0,0.55);
+                box-shadow: 5px 5px 20px -18px rgba(0, 0, 0, 0.55);
                 display: flex;
                 justify-content: center;
 

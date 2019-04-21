@@ -90,11 +90,11 @@ module.exports = {
     ]
   },
   plugins: [
-    htmlPage('vocabulary', 'app', ['tab']),
-    htmlPage('popup', 'popup', ['popup']),
-    htmlPage('panel', 'panel', ['panel']),
-    htmlPage('devtools', 'devtools', ['devtools']),
-    htmlPage('options', 'options', ['options']),
+    htmlPage('Beemo Vocabulary', 'app', ['tab']),
+    htmlPage('Beemo Popup', 'popup', ['popup']),
+    htmlPage('Beemo Panel', 'panel', ['panel']),
+    htmlPage('Beemo Devtools', 'devtools', ['devtools']),
+    htmlPage('Beemo Options', 'options', ['options']),
     htmlPage('background', 'background', ['background']),
     new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }])
   ],
