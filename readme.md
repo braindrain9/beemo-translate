@@ -1,5 +1,6 @@
+Meet the most friendly Chrome Translation Extension!
+
 # Beemo Translate!
-The most friendly Chrome Translation Extension.
 
 ![](src/images/recorder.png)
 Beemo Translate is a Chrome extension that translates selected text into different languages and gives possibility
