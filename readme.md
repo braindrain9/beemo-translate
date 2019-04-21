@@ -35,7 +35,7 @@ Enjoy!
 3. To build a zip file for production: `npm run build-zip`
 4. Run the application: `npm run dev`
 5. Wait will extension is built and navigate to chrome://extensions
-6 Make sure 'Developer mode' is checked
+6. Make sure 'Developer mode' is checked
 7. Click Load unpacked extension...
 8. Select `build` folder to load
 
