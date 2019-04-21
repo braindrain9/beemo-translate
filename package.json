@@ -1,8 +1,7 @@
 {
   "name": "beemo-translate",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "vue.js chrome translation extension",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.17.0",
     "country-code-emoji": "^1.0.0",

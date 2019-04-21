@@ -90,13 +90,14 @@ module.exports = {
     ]
   },
   plugins: [
-    htmlPage('Beemo Vocabulary', 'app', ['tab']),
-    htmlPage('Beemo Popup', 'popup', ['popup']),
-    htmlPage('Beemo Panel', 'panel', ['panel']),
-    htmlPage('Beemo Devtools', 'devtools', ['devtools']),
-    htmlPage('Beemo Options', 'options', ['options']),
-    htmlPage('background', 'background', ['background']),
-    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }])
+    htmlPage('Beemo Vocabulary', 'app', ['manifest', 'vendor', 'tab']),
+    htmlPage('Beemo Popup', 'popup', ['manifest', 'vendor', 'popup']),
+    htmlPage('Beemo Panel', 'panel', ['manifest', 'vendor', 'panel']),
+    htmlPage('Beemo Devtools', 'devtools', ['manifest', 'vendor', 'devtools']),
+    htmlPage('Beemo Options', 'options', ['manifest', 'vendor', 'options']),
+    htmlPage('background', 'background', ['manifest', 'vendor', 'background']),
+    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }]),
+    new CopyWebpackPlugin([{ from: resolve('manifest.json'), to: 'manifest.json' }])
   ],
   performance: { hints: false },
 };
