@@ -9,9 +9,10 @@ Vue.config.productionTip = false;
 Vue.use(VueResource);
 Vue.use(ElementUI);
 
-// TODO delete than
-console.log('content-script!');
+console.log('content-script is running!');
 
+// create element which will be injected to the document
+// and vue-app will be injected there
 const popupDOM = document.createElement('div');
 
 popupDOM.setAttribute('id', 'superContent');

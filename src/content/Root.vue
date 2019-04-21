@@ -39,6 +39,7 @@
 <script>
     import utils from '../ext/utils';
 
+    // translate-to select
     const codeToCountry = {
       'uk': 'Ukrainian',
       'en': 'English',
@@ -83,8 +84,9 @@
           this.loading = true;
           this.error = false;
           this.remembered = false;
-          this.$refs.popup.style.width = this.getPopupWidth(selection.length);
 
+          // change popup width on dependence of text amount
+          this.$refs.popup.style.width = this.getPopupWidth(selection.length);
           this.getTranslation(selection).then((data) => {
             if (data) {
               this.selection.original = selection;
@@ -114,8 +116,6 @@
           )
             .then((response) => {
               // Success
-              console.log(response.data[0][0][0]); // TODO delete than
-              console.log(response.data[2]);
               translated.text = response.data[0].map((item) => {
                 return item[0];
               }).join('');
@@ -124,7 +124,7 @@
               return translated;
             }, (response) => {
               // Error
-              return response.ok;
+              return response.ok; // false
             });
         },
         getPopupWidth(length) {
@@ -144,28 +144,34 @@
       mounted() {
         const self = this;
 
+        // init translate-to select
         Object.keys(codeToCountry).forEach((code) => {
           this.countryList.push({code, title: codeToCountry[code]});
         });
 
+        // listenes to event from inject.js
         window.addEventListener('vocabularyIsSet', function (e) {
-          console.log(e, 'vocabulary is set'); // TODO remove if created
+          // there is one issue here
+          // sometimes on some sites after extension is just loaded to chrome://extensions
+          // it doesn't fire
+          // please try to reload page or try in a new window
           self.remembered = true;
         });
 
+        // show popup on text selection
         document.addEventListener('mouseup', function (e) {
           const selection = window.getSelection().toString();
-
-          // TODO delete than
-          console.log(selection, 'selection');
 
           if (selection && selection.length > 0) {
             self.renderPopup(e.pageX, e.pageY, selection);
           } else {
+            // hides popup on click outside the popup
+            // event listener to prevent hidding is below
             self.$refs.popup.style.visibility = 'hidden';
           }
         }, false);
 
+        // do not hide popup when user interacts with popup
         document.getElementById('content-popup').addEventListener('mouseup', function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -207,7 +213,7 @@
         font-size: 14px;
         min-height: 200px;
         width: 270px;
-        background: #fff;
+        background: white;
         color: $grey;
         z-index: 1000000;
         border-radius: 2px;

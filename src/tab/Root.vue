@@ -10,7 +10,7 @@
                          height="120"
                          alt="Beemo is dancing"
                     >
-                    <div>Your vocabulary is empty</div>
+                    <div>{{loading ? 'Beemo is thinking ...' : 'Your vocabulary is empty'}}</div>
                 </div>
                 <div v-else="vocabulary.length">
                     <el-table :data="vocabulary" :border="true">
@@ -44,8 +44,7 @@
     data() {
       return {
         vocabulary: [],
-        loading: false,
-        search: ''
+        loading: false
       };
     },
     methods: {
@@ -60,7 +59,6 @@
       this.loading = true;
 
       chrome.storage.sync.get(['vocabulary'], (data) => {
-        console.log(data, 'vocabulary');
         this.loading = false;
         this.vocabulary = data.vocabulary.reverse();
       });

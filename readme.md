@@ -5,7 +5,7 @@ Meet the most friendly Chrome Translation Extension!
 ![](src/images/recorder.png)
 Beemo Translate is a Chrome extension that translates selected text into different languages and gives possibility
 to add your translation pair to your own vocabulary.
-Install it from the [Chrome Webstore](link).
+Install it from the [Chrome Webstore](unfortunately extension is on Chrome Store review).
 This project is pretty young, but is made with love and attention to details:
 
 - Translates text on selection or double click.
@@ -15,7 +15,7 @@ This project is pretty young, but is made with love and attention to details:
 - Gives possibility to manage your vocabulary (add / remove).
 - Provides options, devtools (in development for now).
 
-New amazing feature are coming soon!
+New amazing features are coming soon!
 
 > Please note that the extension is not available to run on all pages as some sites prevent
 content script injection, or API used for translation can be aborted due to site Content-Policy permissions. 

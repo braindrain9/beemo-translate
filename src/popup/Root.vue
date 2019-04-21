@@ -85,6 +85,7 @@
         chrome.storage.sync.set({vocabulary: this.vocabulary}, () => {});
       },
       formatCellLength(row, column, cellValue) {
+        // truncate text
         if (cellValue.length > 100) {
           cellValue = cellValue.slice(0, 100) + '...';
         }
@@ -94,8 +95,9 @@
     },
     mounted() {
       this.loading = true;
+
+      // data auto updates
       chrome.storage.sync.get(['vocabulary'], (data) => {
-        console.log(data, 'vocabulary');
         this.loading = false;
         this.vocabulary = data.vocabulary.reverse();
       });
