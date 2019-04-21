@@ -15,7 +15,7 @@
                          height="120"
                          alt="Beemo is dancing"
                     >
-                    <div>Your vocabulary is empty</div>
+                    <div>{{loading ? 'Beemo is thinking ...' : 'Your vocabulary is empty'}}</div>
                 </div>
                 <div v-else="vocabulary.length" class="vocabulary-table">
                     <el-table :data="vocabulary">
@@ -42,7 +42,7 @@
             </div>
             <el-button size="mini" type="primary" @click="tab">Open in new tab</el-button>
         </div>
-        <div v-else="openAbout" class="instructions">
+        <div v-else="openAbout">
             <p class="muted">Meet Beemo! The most friendliest Chrome Translation Extension! ❤️</p>
             <el-collapse v-model="activeNames">
                 <el-collapse-item title="How to use" name="1">
@@ -67,6 +67,7 @@
     data() {
       return {
         openAbout: false,
+        loading: false,
         vocabulary: [],
         activeNames: ['1']
       };
@@ -92,8 +93,10 @@
       }
     },
     mounted() {
+      this.loading = true;
       chrome.storage.sync.get(['vocabulary'], (data) => {
         console.log(data, 'vocabulary');
+        this.loading = false;
         this.vocabulary = data.vocabulary.reverse();
       });
     }
@@ -166,7 +169,5 @@
                 }
             }
         }
-
-        .instructions {}
     }
 </style>

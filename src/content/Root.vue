@@ -212,6 +212,7 @@
         z-index: 1000000;
         border-radius: 2px;
         box-shadow: 10px 11px 28px -18px rgba(0,0,0,0.55);
+        text-align: left;
 
         p {
             margin-bottom: 20px;
