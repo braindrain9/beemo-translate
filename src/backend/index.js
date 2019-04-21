@@ -1,24 +1,5 @@
 console.log('background !');
 
-chrome.storage.sync.get({
-  vocabulary: []
-}, (items) => {
-  console.log(items, 'items');
-
-  // Ad context menu
-  chrome.contextMenus.create({
-    id: 'menuId',
-    title: 'Translate To English with Beemo!',
-    contexts: ['selection']
-  });
-
-  chrome.contextMenus.onClicked.addListener(function({menuItemId, selectionText}, tab) {
-    if (menuItemId === 'menuId') {
-      onTranslation(selectionText);
-    }
-  });
-});
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log(request, 'hello my friend');
 
@@ -33,7 +14,3 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     });
   }
 });
-
-function onTranslation(selectionText) {
-  console.log(selectionText, 'selectionText');
-}
