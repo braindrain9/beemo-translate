@@ -35,7 +35,7 @@
 </template>
 <script>
     import flag from 'country-code-emoji';
-    import storage from '../ext/storage';
+    import utils from '../ext/utils';
 
     const codeToFlag = {
       'uk': 'ua',
@@ -79,7 +79,7 @@
           this.translate(selection);
         },
         addToVocabulary() {
-          storage.set(this.selection);
+          utils.set(this.selection);
         },
         translate(selection) {
           this.loading = true;

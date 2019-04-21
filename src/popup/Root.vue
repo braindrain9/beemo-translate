@@ -25,17 +25,27 @@
                         <el-table-column
                                 prop="original"
                                 label="Original"
-                                width="180">
+                                :formatter="formatCellLength"
+                                width="120">
                         </el-table-column>
                         <el-table-column
                                 prop="translation"
                                 label="Translation"
-                                width="180">
+                                :formatter="formatCellLength"
+                                width="120">
+                        </el-table-column>
+                        <el-table-column align="right">
+                            <template slot-scope="scope">
+                                <el-button
+                                        size="mini"
+                                        type="danger"
+                                        @click="removePair(scope.$index, scope.row)">Delete</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </div>
             </div>
-            <el-button type="primary" @click="tab">New tab</el-button>
+            <el-button size="mini" type="primary" @click="tab">Open in new tab</el-button>
         </div>
         <div v-if="openInstructions && !loading" class="instructions">
             instructions ...
@@ -58,8 +68,17 @@
       openOptionsPage() {
         chrome.runtime.openOptionsPage();
       },
-      getVocabulary() {
+      removePair(index) {
+        this.vocabulary.splice(index, 1);
 
+        chrome.storage.sync.set({vocabulary: this.vocabulary}, () => {});
+      },
+      formatCellLength(row, column, cellValue) {
+        if (cellValue.length > 100) {
+          cellValue = cellValue.slice(0, 100) + '...';
+        }
+
+        return cellValue;
       }
     },
     mounted() {
@@ -111,7 +130,6 @@
             .vocabulary {
                 min-height: 220px;
                 display: flex;
-                justify-content: center;
                 flex-direction: column;
 
                 img {
@@ -121,7 +139,7 @@
 
                 .empty {
                     text-align: center;
-                    padding-top: 20px;
+                    padding-top: 40px;
                 }
 
                 border-bottom: 1px solid $super-light-grey;
