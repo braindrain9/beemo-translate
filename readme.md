@@ -17,6 +17,10 @@ This project is pretty young, but is made with love and attention to details:
 
 New amazing feature are coming soon!
 
+> Please note that the extension is not available to run on all pages as some sites prevent
+content script injection, or API used for translation can be aborted due to site Content-Policy permissions. 
+:(
+
 ## Usage
 
 - Install the extension
