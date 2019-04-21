@@ -7,10 +7,7 @@
                 <a href="#" @click="openOptionsPage"><icon name="cog"></icon></a>
             </span>
         </header>
-        <div v-if="loading">
-            Loading ...
-        </div>
-        <div v-if="!openAbout && !loading" class="main">
+        <div v-if="!openAbout" class="main">
             <div class="vocabulary">
                 <div v-if="!vocabulary.length" class="empty">
                     <img src="https://orig00.deviantart.net/40d9/f/2012/221/5/b/beemo_dancing_by_norrling-d5afmpo.gif"
@@ -45,7 +42,7 @@
             </div>
             <el-button size="mini" type="primary" @click="tab">Open in new tab</el-button>
         </div>
-        <div v-if="openAbout && !loading" class="instructions">
+        <div v-else="openAbout" class="instructions">
             <p class="muted">Meet Beemo! The most friendliest Chrome Translation Extension! ❤️</p>
             <el-collapse v-model="activeNames">
                 <el-collapse-item title="How to use" name="1">
@@ -71,7 +68,6 @@
       return {
         openAbout: false,
         vocabulary: [],
-        loading: false,
         activeNames: ['1']
       };
     },
@@ -96,11 +92,8 @@
       }
     },
     mounted() {
-      this.loading = true;
-
       chrome.storage.sync.get(['vocabulary'], (data) => {
         console.log(data, 'vocabulary');
-        this.loading = false;
         this.vocabulary = data.vocabulary.reverse();
       });
     }
