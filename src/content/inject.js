@@ -6,9 +6,7 @@ script.setAttribute('src', content);
 document.body.appendChild(script);
 
 window.addEventListener('addToVocabulary', function(e) {
-  const editorExtensionId = 'dblflpobokcakofelfapckkolbahfbgo'; // TODO edit then
-
-  chrome.runtime.sendMessage(editorExtensionId, {
+  chrome.runtime.sendMessage(chrome.runtime.id, {
     action: 'addToVocabulary',
     data: e.detail
   },
