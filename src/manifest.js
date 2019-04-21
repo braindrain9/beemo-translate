@@ -1,6 +1,7 @@
 
 module.exports = {
   name: 'Beemo Translate',
+  short_name: 'Beemo',
   version: '0.1',
   description: 'A Chrome Translation Extension',
   manifest_version: 2,
