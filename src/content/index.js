@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import Root from './Root.vue';
 import VueResource from 'vue-resource';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueResource);
+Vue.use(ElementUI);
 
 // TODO delete than
 console.log('content-script!');

@@ -27,11 +27,15 @@
             <p>{{flag.translation}} {{selection.translation}}</p>
             <p class="heading original">Original:</p>
             <p class="original"><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
+            <p class="hint" v-bind:class="{remembered}">
+                {{remembered ? 'Added to Vocabulary!' : 'Add to your vocabulary do not forget this masterpiece!'}}</p>
+            <el-button v-if="!remembered" type="default" @click="addToVocabulary">Remember</el-button>
         </div>
     </div>
 </template>
 <script>
     import flag from 'country-code-emoji';
+    import storage from '../ext/storage';
 
     const codeToFlag = {
       'uk': 'ua',
@@ -50,6 +54,7 @@
         return {
           loading: false,
           error: false,
+          remembered: false,
           countryList: [],
           selection: {
             original: '',
@@ -73,9 +78,13 @@
 
           this.translate(selection);
         },
+        addToVocabulary() {
+          storage.set(this.selection);
+        },
         translate(selection) {
           this.loading = true;
           this.error = false;
+          this.remembered = false;
           this.$refs.popup.style.width = this.getPopupWidth(selection.length);
 
           this.getTranslation(selection).then((data) => {
@@ -145,6 +154,11 @@
           this.countryList.push({code, title: codeToCountry[code]});
         });
 
+        window.addEventListener('vocabularyIsSet', function (e) {
+          console.log(e, 'vocabulary is set'); // TODO remove if created
+          self.remembered = true;
+        });
+
         document.addEventListener('mouseup', function (e) {
           const selection = window.getSelection().toString();
 
@@ -169,6 +183,8 @@
     $grey: #3C4858;
     $lighter-grey: #555;
     $lightest-grey: #888;
+    $border-light-grey: #dcdcdc;
+    $green: #42b983;
 
     .heading {
         font-weight: bold;
@@ -177,6 +193,18 @@
 
     .original {
         color: $lightest-grey;
+    }
+
+    .hint {
+        font-size: 11px;
+        color: $lightest-grey;
+        border-top: 1px solid $border-light-grey;
+        padding-top: 15px;
+        margin-bottom: 10px;
+
+        &.remembered {
+            color: $green;
+        }
     }
 
     .beemo-popup {
