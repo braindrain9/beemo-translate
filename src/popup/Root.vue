@@ -53,7 +53,7 @@
                         <a href="#" @click="tab" class="link">Open ine a new tab</a> and enjoy!</div>
                 </el-collapse-item>
                 <el-collapse-item title="What is next" name="2">
-                    <div>Beemo is always working on updates to improve your experience using Beemo. New features are comming!</div>
+                    <div>Beemo is always working on updates to improve your experience using Beemo. New features are coming!</div>
                 </el-collapse-item>
                 <el-collapse-item title="Feedback" name="3">
                     <div>Help Beemo to become better! We're glad to receive any suggestion <span class="muted">here</span></div>
