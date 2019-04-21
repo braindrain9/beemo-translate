@@ -25,16 +25,14 @@
                         <el-table-column
                                 prop="original"
                                 label="Original"
-                                :formatter="formatCellLength"
-                                width="120">
+                                :formatter="formatCellLength">
                         </el-table-column>
                         <el-table-column
                                 prop="translation"
                                 label="Translation"
-                                :formatter="formatCellLength"
-                                width="120">
+                                :formatter="formatCellLength">
                         </el-table-column>
-                        <el-table-column align="right">
+                        <el-table-column align="right" width="90">
                             <template slot-scope="scope">
                                 <el-button
                                         size="mini"
