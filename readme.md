@@ -28,8 +28,8 @@ content script injection, or API used for translation can be aborted due to site
 - Select preferred language to translate to.
 - Add translation pair to vocabulary by pressing "Add to Vocabulary" button.
 - Click "Beemo Translate" icon on the browser top panel.
-- Here your vocabulary! Study and Manage it from here or click "Open in a new tab" to open in a separate tab.
-- If you have some question press the question mark icon in the popup (browser top panel)
+- Here your vocabulary! Study and Manage it from here or click "Open in a new tab" to open it in a separate tab.
+- If you want to read more about Beemo Translate or have some questions press the question mark icon in the popup (browser top panel)
 
 Enjoy!
 
