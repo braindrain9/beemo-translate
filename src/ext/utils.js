@@ -1,3 +1,10 @@
+import flag from 'country-code-emoji';
+
+const codeToFlag = {
+  'uk': 'ua',
+  'en': 'us'
+};
+
 export default {
   set (selection) {
     const ChromeRequest = {
@@ -11,5 +18,9 @@ export default {
     ChromeRequest.addToVocabulary().then(() => {
       console.log('ended');
     });
+  },
+  getFlagEmoji(lang) {
+    // slice to pass only 2-digit code
+    return flag(codeToFlag[lang] || lang.slice(0, 2));
   }
 };

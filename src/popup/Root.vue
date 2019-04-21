@@ -22,15 +22,15 @@
                 </div>
                 <div v-else="vocabulary.length" class="vocabulary-table">
                     <el-table :data="vocabulary">
-                        <el-table-column
-                                prop="original"
-                                label="Original"
-                                :formatter="formatCellLength">
+                        <el-table-column label="Original" :formatter="formatCellLength">
+                            <template slot-scope="scope">
+                                {{ scope.row.flag.original }} {{ scope.row.selection.original }}
+                            </template>
                         </el-table-column>
-                        <el-table-column
-                                prop="translation"
-                                label="Translation"
-                                :formatter="formatCellLength">
+                        <el-table-column label="Translation" :formatter="formatCellLength">
+                            <template slot-scope="scope">
+                                {{ scope.row.flag.translation }} {{ scope.row.selection.translation }}
+                            </template>
                         </el-table-column>
                         <el-table-column align="right" width="90">
                             <template slot-scope="scope">

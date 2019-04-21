@@ -14,13 +14,15 @@
                     </div>
                 <div v-else="vocabulary.length">
                     <el-table :data="vocabulary" :border="true">
-                        <el-table-column
-                                prop="original"
-                                label="Original">
+                        <el-table-column label="Original" sortable sort-by="flag.original">
+                            <template slot-scope="scope">
+                                {{ scope.row.flag.original }} {{ scope.row.selection.original }}
+                            </template>
                         </el-table-column>
-                        <el-table-column
-                                prop="translation"
-                                label="Translation">
+                        <el-table-column label="Translation" sortable sort-by="flag.translation">
+                            <template slot-scope="scope">
+                                {{ scope.row.flag.translation }} {{ scope.row.selection.translation }}
+                            </template>
                         </el-table-column>
                         <el-table-column align="right" width="90">
                             <template slot-scope="scope">

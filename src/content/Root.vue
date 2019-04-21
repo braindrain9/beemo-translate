@@ -1,7 +1,7 @@
 <template>
     <div class="beemo-popup" ref="popup" id="content-popup">
         <div v-if="loading && !error" class="loading">
-            <img src="http://33.media.tumblr.com/ed93010586d5be345730a1ced4b5396c/tumblr_n60a0vf8Sr1s33ojro1_250.gif"
+            <img src="https://orig00.deviantart.net/40d9/f/2012/221/5/b/beemo_dancing_by_norrling-d5afmpo.gif"
                  alt="Beemo is thinking"
                  width="80"
             />
@@ -13,7 +13,10 @@
                  width="80"
             />
             <p class="heading">Something went wrong!</p>
-            <p>Beemo is very upset! Please try to reload page or make a cup of coffee and wait till our super team is fixing it!</p>
+            <p>
+                Beemo is very upset! Please try to reload page. <br>
+                If it doesnt't help - don't worry, we are working on it.
+            </p>
         </div>
         <div v-if="!loading && !error">
             <p class="heading">
@@ -28,19 +31,14 @@
             <p class="heading original">Original:</p>
             <p class="original"><span v-if="flag.original">{{flag.original}}</span> {{selection.original}}</p>
             <p class="hint" v-bind:class="{remembered}">
-                {{remembered ? 'Added to Vocabulary!' : 'Add to your vocabulary do not forget this masterpiece!'}}</p>
+                {{remembered ? 'Added to Vocabulary!' : 'Add to your vocabulary!'}}</p>
             <el-button v-if="!remembered" type="default" @click="addToVocabulary">Remember</el-button>
         </div>
     </div>
 </template>
 <script>
-    import flag from 'country-code-emoji';
     import utils from '../ext/utils';
 
-    const codeToFlag = {
-      'uk': 'ua',
-      'en': 'us'
-    };
     const codeToCountry = {
       'uk': 'Ukrainian',
       'en': 'English',
@@ -61,7 +59,7 @@
             translation: ''
           },
           flag: {
-            translation: flag('ua'),
+            translation: utils.getFlagEmoji('ua'),
             original: undefined
           },
           lang: {
@@ -79,7 +77,7 @@
           this.translate(selection);
         },
         addToVocabulary() {
-          utils.set(this.selection);
+          utils.set({selection: this.selection, flag: this.flag});
         },
         translate(selection) {
           this.loading = true;
@@ -91,8 +89,8 @@
             if (data) {
               this.selection.original = selection;
               this.selection.translation = data.text;
-              this.flag.original = this.getFlagEmoji(data.originalLang);
-              this.flag.translation = this.getFlagEmoji(this.lang.translation);
+              this.flag.original = utils.getFlagEmoji(data.originalLang);
+              this.flag.translation = utils.getFlagEmoji(this.lang.translation);
             }
 
             // add small delay not to prevent small popup flashing on quick load
@@ -128,10 +126,6 @@
               // Error
               return response.ok;
             });
-        },
-        getFlagEmoji(lang) {
-          // slice to pass only 2-digit code
-          return flag(codeToFlag[lang] || lang.slice(0, 2));
         },
         getPopupWidth(length) {
           let width;
