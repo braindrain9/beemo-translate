@@ -14,12 +14,14 @@
     "vue-pouch": "^0.0.22",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.0"
+    "vuex": "^3.0.0",
+    "zip-folder": "^1.0.0"
   },
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "dev": "webpack --config ./core/webpack.dev.js --hide-modules",
-    "build": "webpack --config ./core/webpack.prod.js -p --progress  --hide-modules --colors"
+    "build": "webpack --config ./core/webpack.prod.js -p --progress  --hide-modules --colors",
+    "build-zip": "webpack --config ./core/webpack.prod.js -p --progress  --hide-modules --colors && node scripts/zip.js"
   },
   "devDependencies": {
     "archiver": "^2.1.0",
