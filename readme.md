@@ -36,13 +36,14 @@ Enjoy!
 ## Development
 
 1. Run dependencies: `npm install`
-2. Build the project: `npm run dev`
-3. To build a zip file for production: `npm run build-zip`
-4. Run the application: `npm run dev`
-5. Wait will extension is built and navigate to chrome://extensions
-6. Make sure 'Developer mode' is checked
-7. Click Load unpacked extension...
-8. Select `build` folder to load
+2. Build the project: `npm run build`
+3. Run the application: `npm run dev`
+4. Wait will extension is built and navigate to chrome://extensions
+5. Make sure 'Developer mode' is checked
+6. Click Load unpacked extension...
+7. Load `build` folder
+
+To build a zip file for production: `npm run build-zip`
 
 ## 
 Dedicated to all Adventure Time fans <3
