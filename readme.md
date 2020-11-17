@@ -21,6 +21,10 @@ New amazing features are coming soon!
 content script injection, or API used for translation can be aborted due to site Content-Policy permissions. 
 :(
 
+## Download
+
+https://chrome.google.com/webstore/detail/beemo-translate/ddonpoobjbdakojomjlpjnaolnooidla?hl=en-GB
+
 ## Usage
 
 - Install the extension
